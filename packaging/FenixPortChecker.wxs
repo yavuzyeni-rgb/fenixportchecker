@@ -2,7 +2,7 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package
       Name="FenixPortChecker"
-      Manufacturer="FenixShell"
+      Manufacturer="FenixPortChecker"
       Version="0.1.1.0"
       UpgradeCode="a8e3c1f0-4b2d-4e9a-9c17-7f2d1b8e03f2"
       Language="1033"
@@ -42,7 +42,7 @@
         <RemoveFolder Id="RemoveAppMenu" Directory="AppMenuFolder" On="uninstall" />
         <RegistryValue
             Root="HKCU"
-            Key="Software\FenixShell\FenixPortChecker"
+            Key="Software\FenixPortChecker"
             Name="Installed"
             Type="integer"
             Value="1"

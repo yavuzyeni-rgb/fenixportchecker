@@ -17,12 +17,14 @@ LLDP/CDP (karşıdaki switch adı ve port) için isteğe bağlı [Npcap](https:/
 ## Geliştirme (Python)
 
 ```bat
-cd Testler\FenixPortChecker
+git clone https://github.com/yavuzyeni-rgb/fenixportchecker.git
+cd fenixportchecker
 run.bat
 ```
 
 ```bash
-cd Testler/FenixPortChecker
+git clone https://github.com/yavuzyeni-rgb/fenixportchecker.git
+cd fenixportchecker
 python3 -m pip install -r requirements.txt
 PYTHONPATH=src python3 -m portgozu --no-browser
 PYTHONPATH=src python3 -m pytest -q

@@ -2,7 +2,7 @@
 
 Küçük bir Windows masaüstü aracı: PC’yi herhangi bir switch portuna taktığınızda **o portun VLAN / IP bilgisini** ve **o kablo üzerinde dönen trafiğin özetini** gösterir.
 
-Bu klasör FenixShell’den bağımsız bir deneme projesidir (`Testler/FenixPortChecker`). İleride FenixShell’e panel olarak alınabilir.
+Bu depo bağımsız bir FenixPortChecker projesidir; kendi başına geliştirilir, paketlenir ve yayınlanır.
 
 ## Ne işe yarar
 
@@ -40,13 +40,13 @@ Windows MSI (Python gömülü, WebView2 penceresi)
 ```
 
 - Dil: Python 3.11+
-- Arayüz: yerel FastAPI + tek sayfa (FenixShell’e yakın koyu tema)
+- Arayüz: yerel FastAPI + tek sayfa (koyu masaüstü teması)
 - Paketleme hedefi: `run.bat` ile geliştirme; sonra PyInstaller EXE
-- Linux’ta birim testleri ve Demo modu ile doğrulanır (bu ajan Windows’ta çalışmaz)
+- Linux’ta birim testleri ve Demo modu ile doğrulanır (Windows’a özel yakalama yolu ayrı doğrulanır)
 
 ## Sürüm planı
 
-### v0.1 — bu klasör (şimdi)
+### v0.1 — bu sürüm (şimdi)
 
 1. Adaptör listesi (Windows PowerShell / Linux sysfs)
 2. Yerel IP, maske, geçit, DHCP, DNS, MAC
@@ -61,13 +61,13 @@ Windows MSI (Python gömülü, WebView2 penceresi)
 
 - Npcap yoksa net uyarı ve kurulum linki
 - SNMP ile MAC → port (`dot1dTpFdbPort`) ve port PVID
-- Cisco/Huawei/Aruba `show` komut şablonları (FenixShell oturumu üzerinden)
+- Cisco/Huawei/Aruba `show` komut şablonları (SSH oturumu üzerinden)
 - PyInstaller ile tek `FenixPortChecker.exe`
 - Kart tak/çık olayını izleyip otomatik tarama
 
 ### v0.3
 
-- FenixShell içinde FenixPortChecker paneli
+- Rapor dışa aktarma (HTML / JSON)
 - Raporu snapshot olarak diske / cloud’a yazma
 
 ## Windows gereksinimleri
