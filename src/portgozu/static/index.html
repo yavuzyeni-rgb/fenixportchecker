@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FenixPortChecker</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/static/app.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <span class="mark" aria-hidden="true"></span>
+        <div>
+          <h1>FenixPortChecker</h1>
+          <p>Bağlı switch portu · VLAN · IP · trafik</p>
+        </div>
+      </div>
+      <div class="controls">
+        <label class="field">
+          <span>Ağ kartı</span>
+          <select id="adapter"></select>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="demo" />
+          Demo
+        </label>
+        <button type="button" id="scan" class="primary">Portu Tara</button>
+        <button type="button" id="listen">Canlı dinle</button>
+      </div>
+    </header>
+
+    <section class="notes" id="notes" hidden></section>
+
+    <section class="cards" id="cards">
+      <article class="card">
+        <h2>Switch</h2>
+        <strong id="sw-name">—</strong>
+        <p id="sw-desc" class="muted">Tarama bekleniyor</p>
+      </article>
+      <article class="card">
+        <h2>Port</h2>
+        <strong id="sw-port">—</strong>
+        <p id="sw-port-desc" class="muted">LLDP / CDP</p>
+      </article>
+      <article class="card">
+        <h2>VLAN</h2>
+        <strong id="vlan">—</strong>
+        <p id="vlan-extra" class="muted">Yerel + etiketler</p>
+      </article>
+      <article class="card">
+        <h2>Bu PC’nin IP</h2>
+        <strong id="ip">—</strong>
+        <p id="ip-extra" class="muted">DHCP / geçit</p>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Trafik dağılımı</h2>
+        <div id="protos" class="bars empty">Henüz kare yok</div>
+      </article>
+      <article class="panel">
+        <h2>Üst konuşmacılar</h2>
+        <div id="talkers" class="list empty">Henüz kare yok</div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Son kareler</h2>
+        <span id="pkt-count" class="muted"></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Kaynak MAC</th>
+              <th>Hedef</th>
+              <th>VLAN</th>
+              <th>Protokol</th>
+              <th>Özet</th>
+            </tr>
+          </thead>
+          <tbody id="recent"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel snmp">
+      <h2>İsteğe bağlı SNMP (salt okunur)</h2>
+      <p class="muted">
+        LLDP yönetim IP’sini biliyorsanız switch’e community ile <code>sysName</code> sorabilirsiniz.
+      </p>
+      <div class="controls">
+        <label class="field grow">
+          <span>Switch IP</span>
+          <input id="snmp-host" placeholder="10.12.1.10" />
+        </label>
+        <label class="field">
+          <span>Community</span>
+          <input id="snmp-comm" value="public" />
+        </label>
+        <button type="button" id="snmp">Sorgula</button>
+      </div>
+      <pre id="snmp-out" class="out" hidden></pre>
+    </section>
+
+    <footer>
+      v0.1 · MSI masaüstü uygulaması · Python kurulumu gerekmez.
+      LLDP/CDP kareleri için isteğe bağlı Npcap; IP ve VLAN Npcap olmadan da gelir.
+    </footer>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
