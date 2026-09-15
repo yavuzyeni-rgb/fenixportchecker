@@ -1,0 +1,39 @@
+name: Build FenixPortChecker Windows MSI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-msi:
+    name: Build MSI
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Build EXE and MSI
+        shell: pwsh
+        run: ./packaging/build-windows.ps1
+
+      - name: Upload MSI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FenixPortChecker-0.1.1-msi
+          path: dist/FenixPortChecker-0.1.1.msi
+          if-no-files-found: error
+          retention-days: 30
