@@ -46,7 +46,7 @@ def state() -> dict:
 
 @app.post("/api/adapters")
 def adapters() -> dict:
-    engine.refresh_adapters()
+    engine.refresh_adapters(force=True)
     return engine.snapshot()
 
 

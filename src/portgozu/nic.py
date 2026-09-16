@@ -7,6 +7,8 @@ import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from .procutil import powershell_hidden, run_hidden
+
 
 @dataclass(slots=True)
 class Adapter:
@@ -81,13 +83,7 @@ Get-NetAdapter | ForEach-Object {
 $adapters | ConvertTo-Json -Depth 5 -Compress
 """
     try:
-        proc = subprocess.run(
-            ["powershell", "-NoProfile", "-NonInteractive", "-Command", script],
-            capture_output=True,
-            text=True,
-            timeout=20,
-            check=False,
-        )
+        proc = powershell_hidden(script, timeout=20)
     except (OSError, subprocess.TimeoutExpired):
         return []
     raw = (proc.stdout or "").strip()
@@ -187,7 +183,7 @@ def _linux_vlan(name: str) -> int | None:
 
 def _linux_ip_addr() -> dict[str, dict]:
     try:
-        proc = subprocess.run(
+        proc = run_hidden(
             ["ip", "-j", "addr"],
             capture_output=True,
             text=True,
@@ -212,7 +208,7 @@ def _linux_ip_addr() -> dict[str, dict]:
 def _linux_routes_dns() -> tuple[dict[str, str], list[str]]:
     gw: dict[str, str] = {}
     try:
-        proc = subprocess.run(
+        proc = run_hidden(
             ["ip", "-j", "route"],
             capture_output=True,
             text=True,

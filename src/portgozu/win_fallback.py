@@ -6,6 +6,7 @@ import json
 import subprocess
 
 from .frames import TrafficStats
+from .procutil import powershell_hidden
 
 
 def fill_from_windows_connections(stats: TrafficStats) -> str | None:
@@ -16,13 +17,7 @@ Get-NetTCPConnection -State Established,Listen |
   ConvertTo-Json -Compress
 """
     try:
-        proc = subprocess.run(
-            ["powershell", "-NoProfile", "-NonInteractive", "-Command", script],
-            capture_output=True,
-            text=True,
-            timeout=12,
-            check=False,
-        )
+        proc = powershell_hidden(script, timeout=12)
     except (OSError, subprocess.TimeoutExpired):
         return None
     raw = (proc.stdout or "").strip()

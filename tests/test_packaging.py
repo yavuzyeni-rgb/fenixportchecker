@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from portgozu.paths import static_dir
+from portgozu.procutil import windows_hidden_kwargs
 from portgozu.win_fallback import _port_name
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,3 +25,21 @@ def test_win_port_names():
     assert _port_name(443) == "HTTPS"
     assert _port_name(22) == "SSH"
     assert _port_name(9999) == "TCP"
+
+
+def test_spec_is_windowed():
+    spec = (ROOT / "packaging" / "portgozu.spec").read_text(encoding="utf-8")
+    assert "console=False" in spec
+    assert "console=True" not in spec
+
+
+def test_windows_hidden_kwargs_shape():
+    import sys
+
+    kwargs = windows_hidden_kwargs()
+    if sys.platform == "win32":
+        assert "creationflags" in kwargs
+        assert kwargs["creationflags"] != 0
+        assert "startupinfo" in kwargs
+    else:
+        assert kwargs == {}

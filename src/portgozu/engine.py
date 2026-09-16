@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import platform
 import threading
+import time
 from datetime import datetime, timezone
 
 from .builders import demo_world
@@ -33,9 +34,20 @@ class Engine:
         self.snmp: SnmpResult | None = None
         self._stop = threading.Event()
         self._thread: threading.Thread | None = None
+        self._last_adapter_refresh: float | None = None
 
-    def refresh_adapters(self) -> list[Adapter]:
+    def refresh_adapters(self, *, force: bool = False) -> list[Adapter]:
+        # Avoid hammering PowerShell on every /api/state poll when the list is empty.
+        now = time.monotonic()
+        if (
+            not force
+            and self._last_adapter_refresh is not None
+            and (now - self._last_adapter_refresh) < 20.0
+        ):
+            with self._lock:
+                return list(self.adapters)
         adapters = list_adapters()
+        self._last_adapter_refresh = now
         with self._lock:
             self.adapters = adapters
             if not self.selected and adapters:
@@ -67,7 +79,7 @@ class Engine:
             self._load_demo()
             return self.snapshot()
 
-        self.refresh_adapters()
+        self.refresh_adapters(force=True)
         adapter = next((a for a in self.adapters if a.name == adapter_name), None)
         notes: list[str] = []
         stats = TrafficStats()
