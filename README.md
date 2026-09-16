@@ -9,7 +9,7 @@ GitHub Actions `Build FenixPortChecker Windows EXE and MSI` işinden her iki art
 - `FenixPortChecker-0.1.1-exe` → taşınabilir `FenixPortChecker.exe`
 - `FenixPortChecker-0.1.1-msi` → kurulum paketi `FenixPortChecker-0.1.1.msi`
 
-**MSI:** çift tıklayıp kurun; Başlat menüsü veya masaüstündeki **FenixPortChecker** kısayolunu açın. Kaldırmak için Windows → Uygulamalar → FenixPortChecker.
+**MSI:** çift tıklayıp kurun. Kurulum sihirbazında lisans, isteğe bağlı **masaüstü kısayolu** (varsayılan açık) ve bitişte **FenixPortChecker'i çalıştır** kutusu vardır; Başlat menüsü kısayolu her zaman eklenir. Kaldırmak için Windows → Uygulamalar → FenixPortChecker.
 
 **EXE:** indirdiğiniz dosyayı doğrudan çalıştırın (kurulum gerekmez).
 

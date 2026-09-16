@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   <Package
       Name="FenixPortChecker"
       Manufacturer="FenixPortChecker"
@@ -12,6 +13,29 @@
     <MediaTemplate EmbedCab="yes" />
     <Icon Id="AppIcon" SourceFile="packaging/portgozu.ico" />
     <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/yavuzyeni-rgb/fenixportchecker" />
+    <Property Id="ARPURLINFOABOUT" Value="https://github.com/yavuzyeni-rgb/fenixportchecker" />
+
+    <!-- Finish dialog: launch app after install (checked by default) -->
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="FenixPortChecker'i calistir" />
+    <Property Id="WixShellExecTarget" Value="[#AppExe]" />
+    <CustomAction
+        Id="LaunchApplication"
+        BinaryRef="Wix4UtilCA_$(sys.BUILDARCHSHORT)"
+        DllEntry="WixShellExec"
+        Impersonate="yes" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="packaging/License.rtf" />
+    <ui:WixUI Id="WixUI_FeatureTree" />
+    <UI>
+      <Publish
+          Dialog="ExitDialog"
+          Control="Finish"
+          Event="DoAction"
+          Value="LaunchApplication"
+          Condition="WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 AND NOT Installed" />
+    </UI>
 
     <StandardDirectory Id="ProgramFiles64Folder">
       <Directory Id="INSTALLFOLDER" Name="FenixPortChecker" />
@@ -32,13 +56,6 @@
             WorkingDirectory="INSTALLFOLDER"
             Icon="AppIcon"
             IconIndex="0" />
-        <Shortcut
-            Id="DesktopShortcut"
-            Directory="DesktopFolder"
-            Name="FenixPortChecker"
-            WorkingDirectory="INSTALLFOLDER"
-            Icon="AppIcon"
-            IconIndex="0" />
         <RemoveFolder Id="RemoveAppMenu" Directory="AppMenuFolder" On="uninstall" />
         <RegistryValue
             Root="HKCU"
@@ -50,8 +67,34 @@
       </Component>
     </ComponentGroup>
 
-    <Feature Id="Main" Title="FenixPortChecker" Level="1">
+    <Component Id="DesktopShortcutComponent" Guid="c0a5e3f2-6d4f-401c-9e39-9f4f3d0a25b8" Directory="DesktopFolder">
+      <Shortcut
+          Id="DesktopShortcut"
+          Name="FenixPortChecker"
+          Description="Switch port VLAN / IP / trafik"
+          Target="[INSTALLFOLDER]FenixPortChecker.exe"
+          WorkingDirectory="INSTALLFOLDER"
+          Icon="AppIcon"
+          IconIndex="0" />
+      <RegistryValue
+          Root="HKCU"
+          Key="Software\FenixPortChecker"
+          Name="DesktopShortcut"
+          Type="integer"
+          Value="1"
+          KeyPath="yes" />
+    </Component>
+
+    <Feature Id="Main" Title="FenixPortChecker" Description="Uygulama dosyalari ve Baslat menu kisayolu" Level="1">
       <ComponentGroupRef Id="AppFiles" />
+      <Feature
+          Id="DesktopShortcutFeature"
+          Title="Masaustu kisayolu"
+          Description="Kurulumdan sonra masaustune FenixPortChecker kisayolu ekle"
+          Level="1"
+          AllowAbsent="yes">
+        <ComponentRef Id="DesktopShortcutComponent" />
+      </Feature>
     </Feature>
   </Package>
 </Wix>

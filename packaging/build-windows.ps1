@@ -13,7 +13,13 @@ if (-not (Test-Path "packaging\portgozu.ico")) {
 }
 
 dotnet tool restore
-dotnet tool run wix -- build packaging/FenixPortChecker.wxs -o dist/FenixPortChecker-0.1.1.msi -arch x64
+dotnet tool run wix -- extension add WixToolset.UI.wixext/5.0.2
+dotnet tool run wix -- extension add WixToolset.Util.wixext/5.0.2
+dotnet tool run wix -- build packaging/FenixPortChecker.wxs `
+  -o dist/FenixPortChecker-0.1.1.msi `
+  -arch x64 `
+  -ext WixToolset.UI.wixext `
+  -ext WixToolset.Util.wixext
 if (-not (Test-Path "dist\FenixPortChecker-0.1.1.msi")) {
   throw "MSI uretilemedi"
 }
