@@ -1,4 +1,4 @@
-name: Build FenixPortChecker Windows MSI
+name: Build FenixPortChecker Windows EXE and MSI
 
 on:
   push:
@@ -9,8 +9,8 @@ permissions:
   contents: read
 
 jobs:
-  build-msi:
-    name: Build MSI
+  build-windows:
+    name: Build EXE and MSI
     runs-on: windows-latest
     steps:
       - name: Checkout
@@ -29,6 +29,14 @@ jobs:
       - name: Build EXE and MSI
         shell: pwsh
         run: ./packaging/build-windows.ps1
+
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: FenixPortChecker-0.1.1-exe
+          path: dist/FenixPortChecker.exe
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Upload MSI artifact
         uses: actions/upload-artifact@v4

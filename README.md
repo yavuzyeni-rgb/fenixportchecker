@@ -2,15 +2,18 @@
 
 PC’yi switch portuna taktığınızda o portun **VLAN / IP** bilgisini ve kablo üzerindeki **trafik özetini** gösteren Windows masaüstü aracı.
 
-## Kurulum (MSI — Python gerekmez)
+## Kurulum (EXE / MSI — Python gerekmez)
 
-GitHub Actions `Build FenixPortChecker Windows MSI` işinden `FenixPortChecker-0.1.1.msi` dosyasını indirin.
+GitHub Actions `Build FenixPortChecker Windows EXE and MSI` işinden her iki artefaktı da indirin:
 
-1. MSI’ye çift tıklayın, kurun.
-2. Başlat menüsü veya masaüstündeki **FenixPortChecker** kısayolunu açın.
-3. Kartı seçip **Portu Tara**. Switch yoksa **Demo** kutusunu işaretleyin.
+- `FenixPortChecker-0.1.1-exe` → taşınabilir `FenixPortChecker.exe`
+- `FenixPortChecker-0.1.1-msi` → kurulum paketi `FenixPortChecker-0.1.1.msi`
 
-Kaldırmak için Windows → Uygulamalar → FenixPortChecker.
+**MSI:** çift tıklayıp kurun; Başlat menüsü veya masaüstündeki **FenixPortChecker** kısayolunu açın. Kaldırmak için Windows → Uygulamalar → FenixPortChecker.
+
+**EXE:** indirdiğiniz dosyayı doğrudan çalıştırın (kurulum gerekmez).
+
+Kartı seçip **Portu Tara**. Switch yoksa **Demo** kutusunu işaretleyin.
 
 LLDP/CDP (karşıdaki switch adı ve port) için isteğe bağlı [Npcap](https://npcap.com/). IP, VLAN ve açık TCP bağlantıları Npcap olmadan da gelir.
 
@@ -30,6 +33,6 @@ PYTHONPATH=src python3 -m portgozu --no-browser
 PYTHONPATH=src python3 -m pytest -q
 ```
 
-Windows’ta MSI üretmek: `packaging/build-windows.ps1` (Windows + Python 3.12 + .NET 8 SDK).
+Windows’ta EXE + MSI üretmek: `packaging/build-windows.ps1` (Windows + Python 3.12 + .NET 8 SDK).
 
 Ayrıntılı kapsam: [PROJE.md](PROJE.md)
