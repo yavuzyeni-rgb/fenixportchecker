@@ -2,7 +2,8 @@ $ErrorActionPreference = "Stop"
 Set-Location (Split-Path -Parent $PSScriptRoot)
 
 python -m pip install --upgrade pip
-python -m pip install -r requirements.txt pyinstaller pywebview pillow
+# scapy is required on Windows for LLDP/CDP sniffing (via Npcap at runtime)
+python -m pip install -r requirements.txt pyinstaller pywebview pillow "scapy>=2.5"
 python packaging/make_icon.py
 python -m PyInstaller packaging/portgozu.spec --noconfirm --distpath dist --workpath build
 if (-not (Test-Path "dist\FenixPortChecker.exe")) {

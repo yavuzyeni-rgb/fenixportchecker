@@ -12,6 +12,7 @@ for pkg in (
     "pydantic",
     "pydantic_core",
     "anyio",
+    "scapy",
 ):
     d, b, h = collect_all(pkg)
     datas += d

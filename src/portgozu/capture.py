@@ -79,8 +79,9 @@ def _listen_scapy(
     except Exception:
         if platform.system() == "Windows":
             return (
-                "Kablo üzerindeki LLDP/CDP kareleri için Npcap gerekir. "
-                "IP, VLAN ve açık TCP bağlantıları Npcap olmadan da çalışır."
+                "LLDP/CDP dinleme motoru (scapy) bu kurulumda yok. "
+                "IP, VLAN ve açık TCP bağlantıları yine de çalışır; "
+                "L2 komşu için güncel EXE/MSI kullanın ve Npcap kurun."
             )
         return None
     try:
@@ -92,5 +93,14 @@ def _listen_scapy(
             stop_filter=lambda _pkt: bool(stop_event and stop_event.is_set()),
         )
     except Exception as exc:
+        text = str(exc).lower()
+        if platform.system() == "Windows" and any(
+            tip in text for tip in ("npcap", "winpcap", "no libpcap", "pcap", "permission")
+        ):
+            return (
+                "Kablo üzerindeki LLDP/CDP kareleri için Npcap gerekir "
+                "(ve genelde yönetici olarak çalıştırma). "
+                "IP, VLAN ve açık TCP bağlantıları Npcap olmadan da çalışır."
+            )
         return f"Kare dinleme başarısız: {exc}"
     return None

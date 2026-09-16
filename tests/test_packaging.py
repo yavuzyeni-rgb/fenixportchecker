@@ -43,3 +43,11 @@ def test_windows_hidden_kwargs_shape():
         assert "startupinfo" in kwargs
     else:
         assert kwargs == {}
+
+
+def test_windows_build_bundles_scapy():
+    """Packaged EXE must include scapy or LLDP/CDP capture can never run."""
+    build = (ROOT / "packaging" / "build-windows.ps1").read_text(encoding="utf-8")
+    assert "scapy" in build.lower()
+    spec = (ROOT / "packaging" / "portgozu.spec").read_text(encoding="utf-8")
+    assert '"scapy"' in spec or "'scapy'" in spec

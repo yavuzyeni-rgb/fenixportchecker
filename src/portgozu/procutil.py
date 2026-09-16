@@ -15,6 +15,8 @@ def windows_hidden_kwargs() -> dict[str, Any]:
     flags = int(getattr(subprocess, "CREATE_NO_WINDOW", 0x08000000))
     startupinfo = subprocess.STARTUPINFO()
     startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+    # 0 == SW_HIDE; belt-and-suspenders with CREATE_NO_WINDOW
+    startupinfo.wShowWindow = 0
     return {
         "creationflags": flags,
         "startupinfo": startupinfo,
