@@ -27,6 +27,9 @@ except Exception:
 
 root = Path(SPECPATH).resolve().parent
 datas += [(str(root / "src" / "portgozu" / "static"), "portgozu/static")]
+ico_src = root / "packaging" / "portgozu.ico"
+if ico_src.is_file():
+    datas += [(str(ico_src), "packaging")]
 
 icon = root / "packaging" / "portgozu.ico"
 icon_arg = str(icon) if icon.is_file() else None

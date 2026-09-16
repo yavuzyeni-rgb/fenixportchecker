@@ -33,6 +33,6 @@ PYTHONPATH=src python3 -m portgozu --no-browser
 PYTHONPATH=src python3 -m pytest -q
 ```
 
-Windows’ta EXE + MSI üretmek: `packaging/build-windows.ps1` (Windows + Python 3.12 + .NET 8 SDK).
+Windows’ta EXE + MSI üretmek: `packaging/build-windows.ps1` (Windows + Python 3.12 + .NET 8 SDK). Anka logosu: `packaging/anka-icon.png` → `packaging/portgozu.ico` (EXE/MSI); arayüzde `static/favicon.svg`.
 
 Ayrıntılı kapsam: [PROJE.md](PROJE.md)

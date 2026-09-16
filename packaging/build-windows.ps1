@@ -2,11 +2,14 @@ $ErrorActionPreference = "Stop"
 Set-Location (Split-Path -Parent $PSScriptRoot)
 
 python -m pip install --upgrade pip
-python -m pip install -r requirements.txt pyinstaller pywebview
+python -m pip install -r requirements.txt pyinstaller pywebview pillow
 python packaging/make_icon.py
 python -m PyInstaller packaging/portgozu.spec --noconfirm --distpath dist --workpath build
 if (-not (Test-Path "dist\FenixPortChecker.exe")) {
   throw "PyInstaller FenixPortChecker.exe uretemedi"
+}
+if (-not (Test-Path "packaging\portgozu.ico")) {
+  throw "portgozu.ico yok"
 }
 
 dotnet tool restore

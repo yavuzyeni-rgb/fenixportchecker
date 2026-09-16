@@ -76,13 +76,46 @@ def _wait_ready(url: str, timeout: float = 15.0) -> bool:
     return False
 
 
+def _window_icon() -> str | None:
+    from pathlib import Path
+
+    frozen = getattr(sys, "frozen", False)
+    if frozen:
+        base = Path(getattr(sys, "_MEIPASS", Path(sys.executable).resolve().parent))
+        for rel in (
+            Path("packaging") / "portgozu.ico",
+            Path("portgozu") / "static" / "anka-mark.png",
+            Path("portgozu") / "static" / "favicon.svg",
+        ):
+            candidate = base / rel
+            if candidate.is_file():
+                return str(candidate)
+    root = Path(__file__).resolve().parents[2]
+    for candidate in (
+        root / "packaging" / "portgozu.ico",
+        Path(__file__).resolve().parent / "static" / "anka-mark.png",
+        Path(__file__).resolve().parent / "static" / "favicon.svg",
+    ):
+        if candidate.is_file():
+            return str(candidate)
+    return None
+
+
 def _open_window(url: str) -> bool:
     try:
         import webview
     except ImportError:
         return False
     try:
-        webview.create_window("FenixPortChecker", url, width=1180, height=800, min_size=(900, 600))
+        kwargs = {"width": 1180, "height": 800, "min_size": (900, 600)}
+        icon = _window_icon()
+        if icon:
+            kwargs["icon"] = icon
+        try:
+            webview.create_window("FenixPortChecker", url, **kwargs)
+        except TypeError:
+            kwargs.pop("icon", None)
+            webview.create_window("FenixPortChecker", url, **kwargs)
         webview.start()
         return True
     except Exception:

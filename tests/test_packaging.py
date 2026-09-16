@@ -6,6 +6,18 @@ def test_static_dir_has_index():
     assert (static_dir() / "index.html").is_file()
 
 
+def test_anka_branding_assets():
+    static = static_dir()
+    assert (static / "favicon.svg").is_file()
+    assert b"Anka" in (static / "favicon.svg").read_bytes() or b"ember" in (static / "favicon.svg").read_bytes()
+    assert (static / "anka-mark.png").is_file()
+    ico = static.parents[2] / "packaging" / "portgozu.ico"
+    assert ico.is_file()
+    assert ico.stat().st_size > 1024
+    src = static.parents[2] / "packaging" / "anka-icon.png"
+    assert src.is_file()
+
+
 def test_win_port_names():
     assert _port_name(443) == "HTTPS"
     assert _port_name(22) == "SSH"
