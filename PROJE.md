@@ -75,7 +75,9 @@ Windows MSI (Python gömülü, WebView2 penceresi)
 1. Python 3.11+ (`python.org`) veya ileride taşınabilir EXE
 2. **Npcap** (LLDP/CDP ve L2 trafik için şart — Windows ham soketi 802.1AB karelerini vermez)
 3. Uygulamayı **yönetici** olarak çalıştırmak genelde gerekir
-4. Switch’te LLDP veya CDP açık olmalı (Cisco: `lldp run` / `cdp run`; Huawei: `lldp enable`)
+4. Switch’te LLDP veya CDP açık olmalı (Cisco: `lldp run` / `cdp run`; Huawei: `lldp enable`).
+   Instant On 1960 LLDP varsayılan açıktır; TX aralığı **30 sn** — kısa taramalar komşuyu kaçırır (uygulama ~35 sn dinler).
+   Instant On CDP göndermez. Yönetim için mobil uygulama / portal veya yerel web UI (`192.168.1.1` / DHCP IP) kullanılır.
 
 ## Güvenlik notu
 

@@ -13,9 +13,9 @@ GitHub Actions `Build FenixPortChecker Windows EXE and MSI` işinden her iki art
 
 **EXE:** indirdiğiniz dosyayı doğrudan çalıştırın (kurulum gerekmez).
 
-Kartı seçip **Portu Tara**. Switch yoksa **Demo** kutusunu işaretleyin.
+Kartı seçip **Portu Tara** (~35 sn — Instant On LLDP aralığı için). Switch yoksa **Demo** kutusunu işaretleyin.
 
-LLDP/CDP (karşıdaki switch adı ve port) için isteğe bağlı [Npcap](https://npcap.com/). IP, VLAN ve açık TCP bağlantıları Npcap olmadan da gelir.
+LLDP/CDP (karşıdaki switch adı ve port) için isteğe bağlı [Npcap](https://npcap.com/) + yönetici. IP, VLAN ve açık TCP bağlantıları Npcap olmadan da gelir. Yönetim IP gelirse **Yönetimi aç**.
 
 ## Geliştirme (Python)
 

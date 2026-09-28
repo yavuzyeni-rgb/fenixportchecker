@@ -18,7 +18,8 @@ app.mount("/static", StaticFiles(directory=STATIC), name="static")
 class ScanBody(BaseModel):
     adapter: str = ""
     demo: bool = False
-    seconds: float = Field(default=4.0, ge=0.5, le=12.0)
+    # Instant On 1960 LLDP TX default is 30s — short scans often miss neighbors.
+    seconds: float = Field(default=35.0, ge=0.5, le=45.0)
 
 
 class ListenBody(BaseModel):

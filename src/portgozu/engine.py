@@ -72,9 +72,9 @@ class Engine:
                 "snmp": self.snmp.as_dict() if self.snmp else None,
             }
 
-    def scan(self, adapter_name: str, demo: bool, seconds: float = 4.0) -> dict:
+    def scan(self, adapter_name: str, demo: bool, seconds: float = 35.0) -> dict:
         self.stop_listen()
-        seconds = min(max(seconds, 0.5), 12.0)
+        seconds = min(max(seconds, 0.5), 45.0)
         if demo:
             self._load_demo()
             return self.snapshot()
@@ -107,8 +107,13 @@ class Engine:
                     notes.append(extra)
         if not neighbor:
             notes.append(
-                "LLDP/CDP komşusu yok. Switch’te protokol kapalı olabilir veya "
-                "kablo dinlenemedi. IP ve kart VLAN bilgisi yine de yerel ağ yığınından gelir."
+                "LLDP/CDP komşusu yok. Instant On 1960 gibi switch’lerde LLDP ~30 sn’de bir "
+                "gelir; ‘Canlı dinle’ ile bekleyin veya Npcap + yönetici çalıştırın. "
+                "CDP bu markada yok. IP/VLAN yine yerel yığından gelir."
+            )
+            notes.append(
+                "Yönetime girmek için: Instant On mobil uygulama / portal, DHCP tablosu, "
+                "veya DHCP yoksa doğrudan kablo + http://192.168.1.1 (admin, şifre boş)."
             )
         if adapter and not adapter.ipv4:
             notes.append("Bu kartta IPv4 adresi yok. DHCP bekleniyor veya VLAN uyumsuz olabilir.")

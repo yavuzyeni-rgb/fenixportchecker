@@ -27,6 +27,7 @@
         </label>
         <button type="button" id="scan" class="primary">Portu Tara</button>
         <button type="button" id="listen">Canlı dinle</button>
+        <button type="button" id="open-mgmt" hidden title="LLDP’den gelen yönetim IP">Yönetimi aç</button>
       </div>
     </header>
 
@@ -108,7 +109,8 @@
 
     <footer>
       v0.1 · MSI masaüstü uygulaması · Python kurulumu gerekmez.
-      LLDP/CDP kareleri için isteğe bağlı Npcap; IP ve VLAN Npcap olmadan da gelir.
+      LLDP/CDP için Npcap + yönetici; Instant On 1960 LLDP ~30 sn aralıklı — tarama ~35 sn bekler.
+      IP ve VLAN Npcap olmadan da gelir.
     </footer>
     <script src="/static/app.js"></script>
   </body>

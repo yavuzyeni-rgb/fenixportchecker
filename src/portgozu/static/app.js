@@ -50,7 +50,14 @@ function render(state) {
   $("sw-name").textContent = nb.switch_name || "—";
   $("sw-desc").textContent = nb.switch_description || nb.platform || (nb.protocol ? `${nb.protocol} komşusu` : "Komşu ilanı yok");
   $("sw-port").textContent = nb.port_id || "—";
-  $("sw-port-desc").textContent = nb.port_description || (nb.mgmt_ips && nb.mgmt_ips[0] ? `Yönetim: ${nb.mgmt_ips.join(", ")}` : "LLDP / CDP");
+  const mgmt = (nb.mgmt_ips && nb.mgmt_ips[0]) || "";
+  $("sw-port-desc").textContent =
+    nb.port_description || (mgmt ? `Yönetim: ${nb.mgmt_ips.join(", ")}` : "LLDP / CDP");
+  const openBtn = $("open-mgmt");
+  if (openBtn) {
+    openBtn.hidden = !mgmt;
+    openBtn.dataset.url = mgmt ? `https://${mgmt}` : "";
+  }
 
   const vlanLocal = local.vlan_id;
   const vlanNb = nb.vlan_id;
@@ -127,12 +134,13 @@ function escapeHtml(s) {
 async function scan() {
   const btn = $("scan");
   btn.disabled = true;
-  btn.textContent = "Taranıyor…";
+  btn.textContent = "LLDP bekleniyor (~35 sn)…";
   try {
     const state = await api("/api/scan", {
       adapter: $("adapter").value,
       demo: $("demo").checked,
-      seconds: 4,
+      // Instant On 1960 LLDP TX default = 30s
+      seconds: 35,
     });
     render(state);
   } catch (err) {
@@ -172,6 +180,13 @@ async function snmp() {
 $("scan").addEventListener("click", scan);
 $("listen").addEventListener("click", toggleListen);
 $("snmp").addEventListener("click", snmp);
+const openMgmt = $("open-mgmt");
+if (openMgmt) {
+  openMgmt.addEventListener("click", () => {
+    const url = openMgmt.dataset.url;
+    if (url) window.open(url, "_blank", "noopener,noreferrer");
+  });
+}
 
 api("/api/state").then((state) => {
   render(state);
